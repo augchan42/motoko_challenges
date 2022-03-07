@@ -12,3 +12,6 @@ dfx canister call day_2 duplicated_character '("no repat")'
 echo CHALLENGE 9
 echo size in bytes "hello"
 dfx canister call day_2 size_in_bytes '("hello")'
+
+echo challenge 10
+dfx canister call day_2 bubble_sort '(vec {3;2;1;5;4})'

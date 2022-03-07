@@ -1,9 +1,12 @@
+import Iter "mo:base/Iter";
 import Nat8 "mo:base/Nat8";
 import Text "mo:base/Text";
 import Nat "mo:base/Nat";
 import Char "mo:base/Char";
 import Nat32 "mo:base/Nat32";
 import Float "mo:base/Float";
+import Array "mo:base/Array";
+import Buffer "mo:base/Buffer";
 
 actor {
 
@@ -151,5 +154,41 @@ actor {
     var numberOfBits : Nat = bitflags.size();
     var bytes : Float = Float.ceil(Float.fromInt(numberOfBits) / 8);
     return (Float.toText(bytes));
+  };
+
+  //challenge 10
+  public func bubble_sort (arry : [Nat]) : async [Nat] {
+    return Array.freeze(priv_bubble_sort(Array.thaw(arry)));
+  };
+
+  func priv_bubble_sort (arry : [var Nat]) : [var Nat] {
+    if (arry.size() > 0) {
+      for (i in Iter.range(0, arry.size())) {
+        for (j in Iter.range(0, arry.size())) {
+          var current = j;
+          var next = j + 1;
+          if (current < (arry.size() - 1)) {
+            if (arry[current] > arry[next]) {
+              swap (arry, current, next);
+            };
+          };
+        };
+      };
+    };
+    
+    return (arry);
+  };
+
+  //swap entry 1 with entry 2 in the array, by index.  index starts at 0
+  func swap (mutable_array : [var Nat], entry1 : Nat, entry2 : Nat) : () {
+    let entry1_val = mutable_array[entry1];
+    let entry2_val = mutable_array[entry2];
+    var buffer = Buffer.Buffer<Nat>(10);
+    var counter : Nat = 0;
+    
+    mutable_array[entry1] := entry2_val;
+    mutable_array[entry2] := entry1_val;
+    
+    return;
   };
 };
