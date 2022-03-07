@@ -2,6 +2,8 @@ import Nat8 "mo:base/Nat8";
 import Text "mo:base/Text";
 import Nat "mo:base/Nat";
 import Char "mo:base/Char";
+import Nat32 "mo:base/Nat32";
+import Float "mo:base/Float";
 
 actor {
 
@@ -97,6 +99,57 @@ actor {
       };
     };
     return false;
-  }
+  };
 
+  //challenge 7
+  public func trim_whitespace ( t : Text) : async Text {
+    var whitespace : Char = ' ';
+    return Text.trim(t, #char ' ');
+  };
+
+  //challenge 8
+  public func duplicated_character ( t : Text) : async Text {
+    var prevChar : Char = Char.fromNat32(0);
+    var currentChar : Char = Char.fromNat32(0);
+
+    for (char in t.chars()) {
+      if (Char.equal (prevChar, char) ) {
+        return (Char.toText(char));
+      };
+      prevChar := char;
+    };
+    return (t);//failure case
+  };
+
+  //challenge 9 
+  public func size_in_bytes ( t : Text) : async Text {
+    var sizeInDecimal : Nat32 = 0;
+    for (char in t.chars()) {
+      sizeInDecimal += Char.toNat32(char);
+    };
+    // return Nat32.toNat(sizeInDecimal);
+    var sizeInBits : Text = decimal_to_bytes(Nat32.toNat(sizeInDecimal));
+    return (sizeInBits);
+  };
+
+  func decimal_to_bytes ( n : Nat ) : Text {
+  var counter : Nat = 0;
+  var bits : Nat = n;
+  var bitflags : Text = "";
+  
+    //keep dividing n by 2 while it's greater than 0
+    while (bits > 0) {
+      if (bits % 2 > 0) {
+        bitflags := Text.concat("1", bitflags);
+      } else {
+        bitflags := Text.concat("0", bitflags);
+      };
+
+      bits := bits / 2;
+    };
+
+    var numberOfBits : Nat = bitflags.size();
+    var bytes : Float = Float.ceil(Float.fromInt(numberOfBits) / 8);
+    return (Float.toText(bytes));
+  };
 };
