@@ -7,6 +7,14 @@
     "guideline": {
       "main": "guideline.mo",
       "type": "motoko"
+    },
+    "server": {
+      "main": "server.mo",
+      "type": "motoko"
+    },
+    "client": {
+      "main": "client.mo",
+      "type": "motoko"
     }
   },
   "defaults": {

@@ -1,3 +1,4 @@
+import Debug "mo:base/Debug";
 import Iter "mo:base/Iter";
 import Nat8 "mo:base/Nat8";
 import Text "mo:base/Text";
@@ -74,6 +75,7 @@ actor {
     };
   };
 
+  //challenge 6
   public func deposit_cycles () : async Nat {
     let amount = Cycles.available();
     // let limit : Nat = capacity - savings;
@@ -85,4 +87,21 @@ actor {
     // savings += acceptable;
     return accepted;
   };
+
+  //challenge 8
+  stable var versionNumber : Nat = 0;
+  stable var counter : Nat = 0;
+
+  public func increment_counter (x : Nat) : async Nat {
+    versionNumber := counter + x;
+    return (counter);
+  };
+
+  system func preupgrade() {
+    // Do something before upgrade
+    versionNumber := versionNumber + 1;
+    Debug.print("Current versionNumber: " # Nat.toText(versionNumber));
+
+  };
+
 };
